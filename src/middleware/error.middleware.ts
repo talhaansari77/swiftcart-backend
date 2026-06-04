@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ApiError } from "../utils/apiError";
 
 export const errorMiddleware = (
   error: Error,
@@ -6,7 +7,12 @@ export const errorMiddleware = (
   res: Response,
   next: NextFunction
 ): void => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  const statusCode =
+    error instanceof ApiError
+      ? error.statusCode
+      : res.statusCode === 200
+      ? 500
+      : res.statusCode;
 
   res.status(statusCode).json({
     message: error.message || "Server Error",
