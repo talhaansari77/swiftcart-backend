@@ -1,9 +1,10 @@
 import cors from "cors";
 import express from "express";
 import { env } from "./config/env";
+import adminRoutes from "./routes/admin.routes";
 import authRoutes from "./routes/auth.routes";
-import productRoutes from "./routes/product.routes";
 import orderRoutes from "./routes/order.routes";
+import productRoutes from "./routes/product.routes";
 import { errorMiddleware } from "./middleware/error.middleware";
 import { notFoundMiddleware } from "./middleware/notFound.middleware";
 
@@ -35,6 +36,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
